@@ -39,7 +39,7 @@ INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(4, 'COMIDA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(4, 'AGUA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(4, 'AGUA');
 
-INSERT INTO tb_rebelde (nome, idade, genero, traidor, denuncia, nome_localizacao, latitude, longitude) VALUES('Mitdra', 52, 'FEMININO', 0, 0, 'Aurum', 13.416205, 55.662835);
+INSERT INTO tb_rebelde (nome, idade, genero, traidor, denuncia, nome_localizacao, latitude, longitude) VALUES('Mitdra', 52, 'FEMININO', 1, 5, 'Aurum', 13.416205, 55.662835);
 
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(5, 'ARMA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(5, 'MUNICAO');
@@ -52,7 +52,7 @@ INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(5, 'AGUA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(5, 'AGUA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(5, 'AGUA');
 
-INSERT INTO tb_rebelde (nome, idade, genero, traidor, denuncia, nome_localizacao, latitude, longitude) VALUES('Saralin', 40, 'FEMININO', 0, 0, 'Bespin', 11.444205, 25.662835);
+INSERT INTO tb_rebelde (nome, idade, genero, traidor, denuncia, nome_localizacao, latitude, longitude) VALUES('Saralin', 40, 'FEMININO', 1, 3, 'Bespin', 11.444205, 25.662835);
 
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(6, 'ARMA');
 INSERT INTO tb_rebelde_item (rebelde_id, item_descricao) VALUES(6, 'MUNICAO');

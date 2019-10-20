@@ -1,5 +1,6 @@
 package com.starwars.api.service.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +104,62 @@ public class RebeldeServiceUtils {
 	public final void verificaTraidor(Rebelde rebelde) {
 		if(rebelde.isTraidor())
 			throw new BadRequest(REBELDE_TRAIDOR);
+	}
+	
+	public final String calculaPercentual(double quantidade, double total) {
+		double valor = quantidade*100/total;
+		String valorstr = String.valueOf(valor);
+		valorstr = valorstr.substring(0, valorstr.indexOf(".")+3)+"%";
+		return valorstr;
+	}
+	
+	public final int calculaPontosPerdidos(List<Rebelde> lista) {
+		int total = 0;
+		for(Rebelde traidor : lista) {
+			List<Item> itens = traidor.getInventario();
+			for(Item item : itens) {
+				total += item.getPontos();
+			}
+		}
+		return total;
+	}
+	
+	public List<String> calculaMediaDeItensPorRebelde(List<Rebelde> lista) {
+		double armas = 0;
+		double municoes = 0;
+		double aguas = 0;
+		double comidas = 0;
+		
+		for(Rebelde rebelde : lista) {
+			for(Item item : rebelde.getInventario()) {
+				if(item == Item.ARMA)
+					armas++;
+				
+				if(item == Item.MUNICAO)
+					municoes++;
+				
+				if(item == Item.AGUA)
+					aguas++;
+				
+				if(item == Item.COMIDA)
+					comidas++;
+			}
+		}
+		
+		int tamanhoLista = lista.size();
+		String armaStr = String.valueOf(armas/tamanhoLista);
+		String municaoStr = String.valueOf(municoes/tamanhoLista);
+		String aguaStr = String.valueOf(aguas/tamanhoLista);
+		String comidaStr = String.valueOf(comidas/tamanhoLista);
+		
+		List<String> mediaItens = new ArrayList<>();
+		mediaItens.add("ARMAS POR REBELDE: " + armaStr.substring(0, 3));
+		mediaItens.add("MUNIÇÕES POR REBELDE: " + municaoStr.substring(0, 3));
+		mediaItens.add("AGUAS POR REBELDE: " + aguaStr.substring(0, 3));
+		mediaItens.add("COMIDAS POR REBELDE: " + comidaStr.substring(0, 3));
+		
+		return mediaItens;
+		
 	}
 	
 	private List<Item> verificaListaMenor(List<Item> listaInicial, List<Item> listaFinal) {

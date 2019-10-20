@@ -16,10 +16,7 @@ public class TestesUtils {
 	public static final int IDADE = 89;
 	public static List<Item> INVENTARIO = new ArrayList<>();
 
-	public static final String denunciarRebelde() {		
-		return "{\"denuncia\" : 1}";
-	}
-		
+			
 	public static Rebelde novoRebelde() {		
 		Rebelde rebelde = new Rebelde();
 		rebelde.setNome("Paulswith");

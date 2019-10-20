@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,37 +55,36 @@ public class StarwarsApiTests {
 	@Test
 	public void test01ListarTodosOsRebeldes() throws Exception {
 		this.mvc.perform(get(this.URI))
-		.andExpect(status().isOk());
+			.andExpect(status().isOk());
 	}
 	
 	@Test
 	public void test02AdicionarRebelde() throws Exception {		
 		Rebelde rebelde = TestesUtils.novoRebelde();
 		this.mvc.perform(post(this.URI)
-			      .content(TestesUtils.asJsonString(rebelde))
-			      .contentType(MediaType.APPLICATION_JSON)
-			      .accept(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isCreated())
-			      .andExpect(header().string("Location", is("http://localhost" + this.URI + "/7")))
-			      .andExpect(jsonPath("nome", equalTo(rebelde.getNome())))
-			      .andExpect(jsonPath("idade", equalTo(rebelde.getIdade())))
-			      .andExpect(jsonPath("genero", equalTo(rebelde.getGenero().toString())))
-			      .andExpect(jsonPath("localizacao.latitude", equalTo(rebelde.getLocalizacao().getLatitude())))
-			      .andExpect(jsonPath("localizacao.longitude", equalTo(rebelde.getLocalizacao().getLongitude())))
-			      .andExpect(jsonPath("localizacao.nomeLocalizacao", equalTo(rebelde.getLocalizacao().getNomeLocalizacao())))
-			      .andDo(MockMvcResultHandlers.print());
+			.content(TestesUtils.asJsonString(rebelde))
+	        .contentType(MediaType.APPLICATION_JSON)
+	        .accept(MediaType.APPLICATION_JSON))
+	        .andExpect(status().isCreated())
+	        .andExpect(header().string("Location", is("http://localhost" + this.URI + "/7")))
+	        .andExpect(jsonPath("nome", equalTo(rebelde.getNome())))
+	        .andExpect(jsonPath("idade", equalTo(rebelde.getIdade())))
+	        .andExpect(jsonPath("genero", equalTo(rebelde.getGenero().toString())))
+	        .andExpect(jsonPath("localizacao.latitude", equalTo(rebelde.getLocalizacao().getLatitude())))
+	        .andExpect(jsonPath("localizacao.longitude", equalTo(rebelde.getLocalizacao().getLongitude())))
+	        .andExpect(jsonPath("localizacao.nomeLocalizacao", equalTo(rebelde.getLocalizacao().getNomeLocalizacao())))
+	        .andDo(MockMvcResultHandlers.print());
 			
 		}
 
 
 	@Test
 	public void test03DenunciarRebelde() throws Exception {
-		this.mvc.perform(patch(this.URI + "/1")
-				.content(TestesUtils.denunciarRebelde())
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("denuncia", equalTo(1)))
-				.andDo(MockMvcResultHandlers.print());
+		this.mvc.perform(patch(this.URI + "/denuncia/1")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("denuncia", equalTo(1)))
+			.andDo(MockMvcResultHandlers.print());
 	}
 
 	@Test
@@ -92,25 +92,25 @@ public class StarwarsApiTests {
 		Localizacao localizacao = TestesUtils.alteraLocalizacao();
 		Rebelde rebelde = new Rebelde();
 		rebelde.setLocalizacao(localizacao);
-		this.mvc.perform(patch(this.URI + "/1")
-				.content(TestesUtils.asJsonString(rebelde))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("localizacao.latitude", equalTo(localizacao.getLatitude())))
-				.andExpect(jsonPath("localizacao.longitude", equalTo(localizacao.getLongitude())))
-				.andExpect(jsonPath("localizacao.nomeLocalizacao", equalTo(localizacao.getNomeLocalizacao())))
-				.andDo(MockMvcResultHandlers.print());
+		this.mvc.perform(patch(this.URI + "/localizacao/1")
+			.content(TestesUtils.asJsonString(rebelde))
+		    .contentType(MediaType.APPLICATION_JSON)
+		    .accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("localizacao.latitude", equalTo(localizacao.getLatitude())))
+			.andExpect(jsonPath("localizacao.longitude", equalTo(localizacao.getLongitude())))
+			.andExpect(jsonPath("localizacao.nomeLocalizacao", equalTo(localizacao.getNomeLocalizacao())))
+			.andDo(MockMvcResultHandlers.print());
 	}
 
 
 	@Test
 	public void test05TrocaItem() throws Exception {
 		this.mvc.perform(put(this.URI)
-				.content(TestesUtils.asJsonString(TestesUtils.oberListaItemDeRebeldesParaTrocar()))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
+			.content(TestesUtils.asJsonString(TestesUtils.oberListaItemDeRebeldesParaTrocar()))
+		    .contentType(MediaType.APPLICATION_JSON)
+		    .accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
 		
 		this.mvc.perform(get(this.URI + "/1"))
 			.andExpect(status().isOk())
@@ -129,28 +129,39 @@ public class StarwarsApiTests {
 	
 	@Test
 	public void test06TransformaRebeldeEmTraidor() throws Exception {
-		this.mvc.perform(patch(this.URI + "/1")
-				.content(TestesUtils.denunciarRebelde())
-				.contentType(MediaType.APPLICATION_JSON));
+		this.mvc.perform(patch(this.URI + "/denuncia/1")
+			.contentType(MediaType.APPLICATION_JSON));
 		
-		this.mvc.perform(patch(this.URI + "/1")
-				.content(TestesUtils.denunciarRebelde())
-				.contentType(MediaType.APPLICATION_JSON));	
+		this.mvc.perform(patch(this.URI + "/denuncia/1")
+			.contentType(MediaType.APPLICATION_JSON));	
 		
 		this.mvc.perform(get(this.URI + "/1"))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("traidor", equalTo(true)));
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("traidor", equalTo(true)));
 			
 	}
 	
 	@Test
 	public void test07TentaNegociarItemDeTraidor() throws Exception {
 		this.mvc.perform(put(this.URI)
-				.content(TestesUtils.asJsonString(TestesUtils.oberListaItemDeTraidoresParaTrocar()))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-		.andExpect(status().isBadRequest());
+			.content(TestesUtils.asJsonString(TestesUtils.oberListaItemDeTraidoresParaTrocar()))
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isBadRequest());
 						
-	}
+	}	
+
+	@Test
+	public void test08ExcluiRebelde() throws Exception {
+		this.mvc.perform(delete(this.URI + "/1"))
+		.andExpect(status().isNoContent());		
+	}	
+
+	@Test
+	public void test09TentaExcluiRebeldeFalha() throws Exception {
+		this.mvc.perform(delete(this.URI + "/200"))
+		.andExpect(status().isNotFound());		
+	}	
+
 	
 }

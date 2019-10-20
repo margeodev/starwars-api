@@ -2,10 +2,9 @@ package com.starwars.api.model.dto;
 
 import com.starwars.api.model.Localizacao;
 
-public class RebeldeDTO {
+public class RebeldeLocalizacaoDTO {
 
 	private Localizacao localizacao;
-	private int denuncia;
 	
 	public Localizacao getLocalizacao() {
 		return localizacao;
@@ -13,13 +12,6 @@ public class RebeldeDTO {
 
 	public void setLocalizacao(Localizacao localizacao) {
 		this.localizacao = localizacao;
-	}
-
-	public int getDenuncia() {
-		return denuncia;
-	}
-	public void setDenuncia(int denuncia) {
-		this.denuncia = denuncia;
 	}
 		
 }
