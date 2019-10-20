@@ -85,7 +85,7 @@ public class RebeldeService {
 		
 		int totalPontosPerdidos = utils.calculaPontosPerdidos(this.listarTraidores());
 		
-		List<String> mediaItens = utils.calculaMediaDeItensPorRebelde(this.listarTodos());
+		List<String> mediaItens = utils.calculaMediaDeItensPorRebelde(this.listarRebeldes());
 		
 		relatorios.setRebeldes(percentualRebeldes);
 		relatorios.setTraidores(percentualTraidores);
